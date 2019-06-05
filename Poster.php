@@ -35,7 +35,7 @@ class Poster{
 		'left' => 'center', //左边距(像素);'center'可居中;'小数':等分
 		'top' => '0', //上边距(像素);'center'可居中;'小数':等分
 		'isTransparent' => false, //是否透明
-		'radius' => array(1,1), //圆角率(水平,垂直)
+		'radius' => array(0,0), //圆角率(水平,垂直)
 		'zoom' => 1, //缩放比例,1:原始比例
 		'width' => '', //图片宽度(像素);非数字:自动获取
 		'height' => '', //图片高度(像素);非数字:自动获取
@@ -138,7 +138,7 @@ class Poster{
 		$config = $this->_autoTextSize($config,$config['value']);
 		$colors = is_array($config['color']) ? $config['color'] : $this->hex2rgb($config['color']);
 		$color = imagecolorallocate($resource,$colors['red'],$colors['green'],$colors['blue']);
-		imagettftext($resource,$config['size'],$config['angle'],$config['left'],$config['top'] + $config['size'] + $config['size'] * 0.15,$color,$config['font'],$config['value']);
+		imagettftext($resource,$config['size'],$config['angle'],$config['left'],$config['top'] + $config['size'] + $config['size'] * 0.15,$color,realpath($config['font']),$config['value']);
 		return $resource;
 	}
 
@@ -163,7 +163,6 @@ class Poster{
 				return $config;
 			}
 		}else{
-			$config['left'] = $this->backgroundConfig['width'] - ($config['left'] + $font_width);
 			if($config['left'] < 0 && ($config['size'] > $this->$config['minSize'])){
 				$config['size'] = $config['size'] - 2;
 				return $this->_autoTextSize($conf,$text,$config);
